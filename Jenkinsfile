@@ -14,11 +14,7 @@ pipeline {
     }
     stage('Docker Build') {
       steps {
-        sh "ls"
-        sh "pwd"
-        sh "cd backend" 
-        sh "ls"
-        sh "docker build -t myimage ."
+        sh "docker build -t myimage ./backend/Dockerfile"
         sh "docker tag myimage trow.kube-public:31000/myimage:mytag"
         sh "docker push trow.kube-public:31000/myimage:mytag"
       }
