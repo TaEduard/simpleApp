@@ -11,7 +11,7 @@ RUN npm install --no-save --unsafe-perm=true --allow-root
 
 RUN npm run build
 
-FROM nginx:stable-alpine
+FROM nginx:1.15
 
 COPY --from=stage1 /simpleApp/frontend/build /usr/share/nginx/html
 COPY --from=stage1 /simpleApp/frontend/nginx.conf /etc/nginx/conf.d/default.conf
