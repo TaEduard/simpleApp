@@ -1,7 +1,7 @@
 pipeline {
   agent any
   stages {
-     stage('Docker Clean system') {
+     stage('Docker Clean System') {
       steps {
         sh "docker system prune -f"
       }
@@ -9,7 +9,7 @@ pipeline {
     stage('Docker Build') {
       steps {
         sh "docker build -t botaccount123/backend:${env.BUILD_NUMBER} ./backend/"
-        sh "docker build -t botaccount123/backend:${env.BUILD_NUMBER} ./frontend/"
+        sh "docker build -t botaccount123/frontend:${env.BUILD_NUMBER} ./frontend/"
       }
     }
     stage('Docker Push') {
