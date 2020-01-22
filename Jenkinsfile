@@ -17,6 +17,7 @@ pipeline {
         sh "ls"
         sh "pwd"
         sh "cd backend" 
+        sh "ls"
         sh "docker build -t myimage ."
         sh "docker tag myimage trow.kube-public:31000/myimage:mytag"
         sh "docker push trow.kube-public:31000/myimage:mytag"
