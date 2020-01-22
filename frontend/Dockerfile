@@ -1,4 +1,4 @@
-FROM node:lts-alpine as stage1 
+FROM node:lts-alpine as stage0 
 
 RUN apk add --no-cache git bash
 RUN git clone https://github.com/TaEduard/simpleApp.git 
@@ -13,5 +13,6 @@ RUN npm run build
 
 FROM nginx:1.15
 
-COPY --from=stage1 /simpleApp/frontend/build /usr/share/nginx/html
-COPY --from=stage1 /simpleApp/frontend/nginx.conf /etc/nginx/conf.d/default.conf
+COPY --from=stage0 /simpleApp/frontend/build /usr/share/nginx/html
+
+COPY --from=stage0 /simpleApp/frontend/nginx.conf /etc/nginx/conf.d/default.conf
