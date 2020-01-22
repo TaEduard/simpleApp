@@ -10,10 +10,10 @@ DataController.get('/', async (req, res, next) => {
   try {
     const data = await Data.findAll()
     if (!isNull(data))
-      res.json({ data })
+      res.json({ data }).status(200).end()
   } catch (error) {
     console.log(error)
-    res.statusCode(300).send()
+    res.status(300).end()
   }
 })
 

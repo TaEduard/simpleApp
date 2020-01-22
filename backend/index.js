@@ -1,10 +1,9 @@
 const express = require('express'),
   app = express(),
   server = require('http').createServer(app),
-  bodyparser = require('body-parser'),
   { name, version } = require('./package.json'),
-  { host } = require('./config/configProvider')()
-
+  { host } = require('./config/configProvider')(),
+  cors = require('cors')
 app.get('/', (_, res) => {
   res.json({
     name,
@@ -12,8 +11,7 @@ app.get('/', (_, res) => {
     env: process.env.ENV || "unknown",
   })
 })
-
-app.use(bodyparser.json({ type: "application/json" }))
+app.use(cors())
 app.use('/data', require('./controllers/dataController'))
 
 const PORT = host.port
