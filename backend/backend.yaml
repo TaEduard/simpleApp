@@ -1,0 +1,46 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend
+spec:
+  ports:
+    - port: 3000
+  selector:
+    app: backend
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+spec:
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+        - image: botaccount123/backend:{{BUILD_NUMBER}}
+          name: backend
+          env:
+            - name: MYSQL_HOST
+              value: "MYSQL"
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysecret
+                  key: password.txt
+            - name: MYSQL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: mysecret
+                  key: username.txt
+            - name: PORT
+              value: "3000"
+            - name: HOSTNAME
+              value: "0.0.0.0"
+          ports:
+            - containerPort: 3000
+              name: backend
