@@ -3,8 +3,13 @@ kind: Service
 metadata:
   name: backend
 spec:
+  type: NodePort
   ports:
-    - port: 3000
+    - name: backend-port
+      protocol: TCP
+      nodePort: 30202
+      port: 3000
+      targetPort: 3000
   selector:
     app: backend
 ---
@@ -22,7 +27,7 @@ spec:
         app: backend
     spec:
       containers:
-        - image: botaccount123/backend:{{BUILD_NUMBER}}
+        - image: "{{DOCKERHUBUSER}}/backend:{{BUILD_NUMBER}}"
           name: backend
           env:
             - name: MYSQL_HOST
