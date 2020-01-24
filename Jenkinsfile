@@ -34,7 +34,7 @@ pipeline {
       steps {
           withKubeConfig([credentialsId: 'kubeconfig']) {
           sh 'cat backend/backend.yaml | sed "s/{{DOCKERHUBUSER}}/$DOCKERUSER/g" | sed "s/{{BUILD_NUMBER}}/$BUILD_NUMBER/g" | kubectl apply -f -'
-          sh 'export NODE_NAME=$(kubectl describe pod backend | "grep Node:" | sed "s/Node:\s*//g")'
+          sh 'export NODE_NAME=$(kubectl describe pod backend | "grep Node:" | sed "s/Node:\\s*//g")'
           sh 'export BACKEND_PORT=$(kubectl describe svc backend | grep "NodePort:" | sed "s/NodePort:\s*backend-port\s*//g" | sed "s/\/TCP//g")'
           sh 'export BACKEND_URL="${NODE_NAME}:${BACKEND_PORT}"'
           sh 'cat frontend/frontend.yaml | sed "s/{{DOCKERHUBUSER}}/$DOCKERUSER/g" | sed "s/{{BUILD_NUMBER}}/$BUILD_NUMBER/g" | sed "s/{{BACKEND}}/$BACKEND_URL/g" | kubectl apply -f -'
